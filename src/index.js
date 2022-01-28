@@ -34,10 +34,10 @@ webApp.post('/whatsapp', async (req, res) => {
     console.log(sender_id);
     console.log(message);
 
-    let intent_data = await DIALOGFLOW_API.detectIntent(message, sender_id);
-    console.log('Intent detected.')
-    console.log(intent_data.text);
     try {
+        let intent_data = await DIALOGFLOW_API.detectIntent(message, sender_id);
+        console.log('Intent detected.')
+        console.log(intent_data.text);
         let data = JSON.parse(intent_data.text);
         let text_messages = data.text;
         let buttons = data.buttons;
@@ -48,7 +48,7 @@ webApp.post('/whatsapp', async (req, res) => {
             const text = text_messages[index];
             if (index == text_messages.length - 1) {
                 if (buttons.length == 0) {
-                    await ZOKO_API.sendTextMessage(text, sender_id);    
+                    await ZOKO_API.sendTextMessage(text, sender_id);
                 } else {
                     await ZOKO_API.sendButtonMessage(buttons, text, sender_id);
                 }
